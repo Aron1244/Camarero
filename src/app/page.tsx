@@ -41,7 +41,7 @@ const sampleDishes: Dish[] = [
     description: "Botella de agua mineral 500ml",
     price: 2.0,
     category: "bebidas",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://tost.cl/cdn/shop/files/Disenosintitulo-2024-04-02T164739.838_1200x.png?v=1738742454",
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ const sampleDishes: Dish[] = [
     description: "Coca-Cola, Fanta, Sprite (330ml)",
     price: 2.5,
     category: "bebidas",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://150927483.v2.pressablecdn.com/wp-content/uploads/2025/01/wp-image-2044.png",
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const sampleDishes: Dish[] = [
     description: "Caña de cerveza (330ml)",
     price: 3.0,
     category: "bebidas",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://los-alpes.cl/wp-content/uploads/2022/04/920320091-600x600.jpg",
   },
   {
     id: 7,
@@ -65,7 +65,7 @@ const sampleDishes: Dish[] = [
     description: "Arroz, pollo, conejo, judías verdes y garrofón",
     price: 15.0,
     category: "platos",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://www.hola.com/horizon/landscape/9e7aa7251e9f-stockfood00456742hirespaellavalencianawithgreenbeansspain.jpg",
   },
   {
     id: 8,
@@ -73,7 +73,7 @@ const sampleDishes: Dish[] = [
     description: "Entrecot de ternera a la parrilla con patatas y verduras",
     price: 18.5,
     category: "platos",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://www.napoleon.com/sites/default/files/styles/large_banner_image_1200_by_560_/public/images/2018-11/grilled-ribeye-steaks.jpg?h=bde28bee&itok=tophiYpi",
   },
   {
     id: 9,
@@ -81,7 +81,7 @@ const sampleDishes: Dish[] = [
     description: "Lubina al horno con patatas y verduras",
     price: 16.0,
     category: "platos",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "https://content-cocina.lecturas.com/medio/2019/02/06/paso_a_paso_para_realizar_lubina_al_horno_con_patatas_y_verduras_resultado_final_f4beb45e_800x800.jpg",
   },
 ];
 

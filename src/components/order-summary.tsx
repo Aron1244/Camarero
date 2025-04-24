@@ -19,7 +19,7 @@ export default function OrderSummary({ order, onClose, onSendOrder, onAddItem, o
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-xl font-bold">Comanda</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
-            {/* Reemplazado icono de X con ✕ */}✕
+            <span>✕</span>
           </Button>
         </div>
 
@@ -41,11 +41,11 @@ export default function OrderSummary({ order, onClose, onSendOrder, onAddItem, o
                       className="h-8 w-8"
                       onClick={() => onRemoveItem(item.dish.id)}
                     >
-                      {/* Reemplazado icono de Minus con - */}-
+                      <span>-</span>
                     </Button>
                     <span className="w-6 text-center">{item.quantity}</span>
                     <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => onAddItem(item.dish)}>
-                      {/* Reemplazado icono de Plus con + */}+
+                      <span>+</span>
                     </Button>
                   </div>
                 </div>
@@ -61,7 +61,6 @@ export default function OrderSummary({ order, onClose, onSendOrder, onAddItem, o
           </div>
 
           <Button className="w-full" onClick={onSendOrder} disabled={order.items.length === 0}>
-            {/* Reemplazado icono de Send con emoji */}
             <span className="mr-2">📤</span>
             Enviar a cocina
           </Button>
