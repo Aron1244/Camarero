@@ -1,103 +1,198 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import Navbar from "@/components/navbar";
+
+import OrderSummary from "@/components/order-summary";
+import type { Dish, Order, OrderItem } from "@/types/types";
+import Footer from "@/components/footer";
+import DishCard from "@/components/dish-card";
+
+
+// Datos de ejemplo
+const sampleDishes: Dish[] = [
+  {
+    id: 1,
+    name: "Patatas Bravas",
+    description: "Patatas fritas con salsa brava y alioli",
+    price: 5.5,
+    category: "entradas",
+    image: "/platos/patatas.jpg",
+  },
+  {
+    id: 2,
+    name: "Croquetas de Jamón",
+    description: "Croquetas caseras de jamón ibérico",
+    price: 6.0,
+    category: "entradas",
+    image: "/platos/croquetas.jpg",
+  },
+  {
+    id: 3,
+    name: "Ensalada César",
+    description: "Lechuga, pollo, queso parmesano, picatostes y salsa césar",
+    price: 8.5,
+    category: "entradas",
+    image: "/platos/ensalada.jpg",
+  },
+  {
+    id: 4,
+    name: "Agua Mineral",
+    description: "Botella de agua mineral 500ml",
+    price: 2.0,
+    category: "bebidas",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 5,
+    name: "Refresco",
+    description: "Coca-Cola, Fanta, Sprite (330ml)",
+    price: 2.5,
+    category: "bebidas",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 6,
+    name: "Cerveza",
+    description: "Caña de cerveza (330ml)",
+    price: 3.0,
+    category: "bebidas",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 7,
+    name: "Paella Valenciana",
+    description: "Arroz, pollo, conejo, judías verdes y garrofón",
+    price: 15.0,
+    category: "platos",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 8,
+    name: "Entrecot a la Parrilla",
+    description: "Entrecot de ternera a la parrilla con patatas y verduras",
+    price: 18.5,
+    category: "platos",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 9,
+    name: "Lubina al Horno",
+    description: "Lubina al horno con patatas y verduras",
+    price: 16.0,
+    category: "platos",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedCategory, setSelectedCategory] = useState<string>("entradas");
+  const [order, setOrder] = useState<Order>({ items: [], total: 0 });
+  const [showOrder, setShowOrder] = useState<boolean>(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const categories = [
+    { id: "entradas", name: "Entradas" },
+    { id: "bebidas", name: "Bebidas" },
+    { id: "platos", name: "Platos" },
+  ];
+
+  const filteredDishes = sampleDishes.filter(
+    (dish) => dish.category === selectedCategory
+  );
+
+  const addToOrder = (dish: Dish) => {
+    const existingItem = order.items.find((item) => item.dish.id === dish.id);
+
+    let newItems: OrderItem[];
+
+    if (existingItem) {
+      newItems = order.items.map((item) =>
+        item.dish.id === dish.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      newItems = [...order.items, { dish, quantity: 1 }];
+    }
+
+    const newTotal = newItems.reduce(
+      (sum, item) => sum + item.dish.price * item.quantity,
+      0
+    );
+
+    setOrder({ items: newItems, total: newTotal });
+  };
+
+  const removeFromOrder = (dishId: number) => {
+    const existingItem = order.items.find((item) => item.dish.id === dishId);
+
+    if (!existingItem) return;
+
+    let newItems: OrderItem[];
+
+    if (existingItem.quantity > 1) {
+      newItems = order.items.map((item) =>
+        item.dish.id === dishId
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+    } else {
+      newItems = order.items.filter((item) => item.dish.id !== dishId);
+    }
+
+    const newTotal = newItems.reduce(
+      (sum, item) => sum + item.dish.price * item.quantity,
+      0
+    );
+
+    setOrder({ items: newItems, total: newTotal });
+  };
+
+  const sendOrder = () => {
+    // Aquí iría la lógica para enviar la comanda a la cocina
+    alert("Comanda enviada a la cocina");
+    setOrder({ items: [], total: 0 });
+    setShowOrder(false);
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col pb-16">
+      <Navbar
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
+
+      <div className="flex-1 p-4 container mx-auto">
+        <h2 className="text-xl font-bold mb-4">
+          {categories.find((cat) => cat.id === selectedCategory)?.name}
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredDishes.map((dish) => (
+            <DishCard
+              key={dish.id}
+              dish={dish}
+              onAddToOrder={() => addToOrder(dish)}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+
+      <Footer
+        orderCount={order.items.reduce((sum, item) => sum + item.quantity, 0)}
+        onOrderClick={() => setShowOrder(!showOrder)}
+      />
+
+      {showOrder && (
+        <OrderSummary
+          order={order}
+          onClose={() => setShowOrder(false)}
+          onSendOrder={sendOrder}
+          onAddItem={addToOrder}
+          onRemoveItem={removeFromOrder}
+        />
+      )}
+    </main>
   );
 }
