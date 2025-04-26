@@ -60,10 +60,10 @@ export default function OrderSummary({ order, onClose, onSendOrder, onAddItem, o
             <span className="font-bold">{order.total.toFixed(2)} €</span>
           </div>
 
-          <Button className="w-full" onClick={onSendOrder} disabled={order.items.length === 0}>
+          <button className="w-full" onClick={onSendOrder} disabled={order.items.length === 0}>
             <span className="mr-2">📤</span>
             Enviar a cocina
-          </Button>
+          </button>
         </div>
       </div>
     </div>
