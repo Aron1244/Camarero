@@ -31,7 +31,7 @@ export default function DishCard({ dish, onAddToOrder }: DishCardProps) {
             <div>
               <h3 className="font-bold">{dish.name}</h3>
             </div>
-            <span className="font-bold">{dish.price.toFixed(2)} €</span>
+            <span className="font-bold">$ {dish.price.toFixed(2)}</span>
           </div>
         </CardContent>
         <CardFooter className="p-4 pt-0 flex justify-end">

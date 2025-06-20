@@ -32,7 +32,7 @@ export default function OrderSummary({ order, onClose, onSendOrder, onAddItem, o
                 <div key={item.dish.id} className="flex justify-between items-center">
                   <div className="flex-1">
                     <p className="font-medium">{item.dish.name}</p>
-                    <p className="text-sm text-gray-500">{(item.dish.price * item.quantity).toFixed(2)} €</p>
+                    <p className="text-sm text-gray-500">$ {(item.dish.price * item.quantity).toFixed(2)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Button
@@ -57,7 +57,7 @@ export default function OrderSummary({ order, onClose, onSendOrder, onAddItem, o
         <div className="p-4 border-t">
           <div className="flex justify-between items-center mb-4">
             <span className="font-bold">Total:</span>
-            <span className="font-bold">{order.total.toFixed(2)} €</span>
+            <span className="font-bold">$ {order.total.toFixed(2)}</span>
           </div>
 
           <button className="w-full" onClick={onSendOrder} disabled={order.items.length === 0}>
